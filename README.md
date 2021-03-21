@@ -17,9 +17,9 @@
 
 Existing solutions:
   
-![](https://i.gyazo.com/731a77bfad3ee10018364194781ad172.png)
-![](https://i.gyazo.com/0596d36ac1e04af6bc914e42faf863e2.png)  
-![](https://i.gyazo.com/b1e9c2a25f07160f03557f47b9a99247.png)  
+![](https://i.gyazo.com/731a77bfad3ee10018364194781ad172.png | width=100)
+![](https://i.gyazo.com/0596d36ac1e04af6bc914e42faf863e2.png | width=100)  
+![](https://i.gyazo.com/b1e9c2a25f07160f03557f47b9a99247.png | width=100)  
    
 
 5. What technologies, APIs etc will you be using to develop this solution? Provide links and explanations.
