@@ -17,9 +17,9 @@
 
 Existing solutions:
   
- - BBC News (https://i.gyazo.com/731a77bfad3ee10018364194781ad172.png)  
- - NBC News (https://i.gyazo.com/0596d36ac1e04af6bc914e42faf863e2.png)  
- - CNN (https://i.gyazo.com/b1e9c2a25f07160f03557f47b9a99247.png)  
+![BBC News](https://i.gyazo.com/731a77bfad3ee10018364194781ad172.png =100x250)
+![NBC News](https://i.gyazo.com/0596d36ac1e04af6bc914e42faf863e2.png =100x250)  
+![CNN](https://i.gyazo.com/b1e9c2a25f07160f03557f47b9a99247.png =100x250)  
    
 
 5. What technologies, APIs etc will you be using to develop this solution? Provide links and explanations.
