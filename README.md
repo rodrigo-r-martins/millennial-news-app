@@ -8,8 +8,11 @@
 <p>Celeste is an inspired young journalist who’s aspired to become a professional news journalist. She constantly needs to be updated with news around the world and also to get exposed to different interpretations on same news by different news media corporations. This app helps her to maintain both above requirements by concentrating news from many news outlet sources into one location.</p>
 
 3. What are the major features of the solution? List the features.
-- News from different media corporations
-- News from 20+ different locations
+- Allow users to login to account
+- Allow users to search and filter news articles 
+- Allow users to read news articles from multiple news outlets
+- Allow users to save news articles to profile for future viewing
+- Allow users to share news articles with others
 
 4. How is this solution unique? How does it relate to existing solutions on the market? What are three solutions similar or related to what you want to do in the Google Play Store? Do the research and know that you are probably not reinventing the wheel! Present these three solutions, a description and how they compare to yours. Provide screenshots of the existing solutions.
 
