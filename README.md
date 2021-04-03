@@ -31,6 +31,7 @@ Existing solutions:
 - [NewsApi] (https://newsapi.org/)
 
 <h1>Pen and Paper design </h1>
+
 ![Main Activity](https://webpage.pace.edu/ad44798n/MobileProjectGUI/1.1-Main%20Activity.png)
 
 ![News Activity](https://webpage.pace.edu/ad44798n/MobileProjectGUI/2.1-Activity%202.png)
