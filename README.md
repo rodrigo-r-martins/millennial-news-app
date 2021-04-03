@@ -36,7 +36,7 @@ Existing solutions:
 <img src="https://webpage.pace.edu/ad44798n/MobileProjectGUI/1.1-Main%20Activity.png" width="300px" />
 <h4>News Activity</h4>
 <img src="https://webpage.pace.edu/ad44798n/MobileProjectGUI/2.1-Activity%202.png" width="300px" />
-<h4>Drop Down Menu</h4>
+<h4 style="color:blue;">Drop Down Menu</h4>
 <img src="https://webpage.pace.edu/ad44798n/MobileProjectGUI/3.1-Drop%20down%20menu.png" width="300px" style="border:1px solid black;"/>
 <h4>Settings Activity</h4>
 <img src="https://webpage.pace.edu/ad44798n/MobileProjectGUI/4.1-Settings%20Activity.png" width="300px" />
