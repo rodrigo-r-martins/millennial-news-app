@@ -32,6 +32,8 @@ Existing solutions:
 
 <h1>Pen and Paper design </h1>
 
+<img src="https://webpage.pace.edu/ad44798n/MobileProjectGUI/1.1-Main%20Activity.png" width="200px" />
+
 ![Main Activity](https://webpage.pace.edu/ad44798n/MobileProjectGUI/1.1-Main%20Activity.png)
 ![News Activity](https://webpage.pace.edu/ad44798n/MobileProjectGUI/2.1-Activity%202.png)
 ![Drop Down Menu](https://webpage.pace.edu/ad44798n/MobileProjectGUI/3.1-Drop%20down%20menu.png)
