@@ -1,3 +1,5 @@
+<h1>Millennial News</h1>
+
 1. What is/are the problem/s you want to solve? Please provide background based on research.
 
 <p>In the present day there are a number of news media apps installed in every individuals’ mobile device which render news content from that respective news corporation. When an individual (User) needs to view news available in different news agencies or in a different part of the world, that individual needs to move between multiple apps in his device. This creates an extra burden on the users part as the user needs to move from one app to another to fulfill the user's news requirements.</p>
