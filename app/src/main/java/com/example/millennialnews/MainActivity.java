@@ -37,17 +37,17 @@ public class MainActivity extends AppCompatActivity {
             openSettingsActivity(item);
             return true;
         }
-//        if (id == R.id.menuLogIn) {
-//            openLogInActivity(item);
-//            return true;
-//        }
+        if (id == R.id.menuLogIn) {
+            openLogInActivity(item);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
-//    private void openLogInActivity(MenuItem item) {
-//        Intent intent = new Intent(this, LogInActivity.class);
-//        startActivity(intent);
-//    }
+    private void openLogInActivity(MenuItem item) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
 
     private void openSettingsActivity(MenuItem item) {
         Intent intent = new Intent(this, SettingsActivity.class);
