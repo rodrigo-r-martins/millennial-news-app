@@ -8,6 +8,7 @@ public class NewsArticle {
     private String author;
     private String title;
     private String description;
+    private String content;
     private String date;
     private String image;
 

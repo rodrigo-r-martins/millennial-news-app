@@ -28,14 +28,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
-        holder.tvNewsTitle.setText(newsList.get(position).getTitle());
+        String title = newsList.get(position).getTitle();
+        int endPoint = title.lastIndexOf("-");
+        String newTitle = title.substring(0, endPoint);
+        holder.tvNewsTitle.setText(newTitle);
         holder.tvNewsAuthor.setText(String.format(
                 "%s: { %s }",
                 newsList.get(position).getSource().getName(),
                 newsList.get(position).getAuthor()));
         holder.tvNewsDate.setText(newsList.get(position).getDate());
-        holder.tvNewsDescription.setText(newsList.get(position).getDescription());
-//        holder.ivNewsImage. setText(newsList.get(position).getImage());
+        LoadImageNews image = new LoadImageNews(holder.ivNewsImage);
+        image.execute(newsList.get(position).getImage());
 
         holder.newsItemLayout.setOnClickListener(v ->
                 Toast.makeText(v.getContext(), newsList.get(position).getTitle(), Toast.LENGTH_SHORT).show());
@@ -60,7 +63,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             tvNewsTitle = itemView.findViewById(R.id.tvNewsTitle);
             tvNewsAuthor = itemView.findViewById(R.id.tvNewsAuthor);
             tvNewsDate = itemView.findViewById(R.id.tvNewsDate);
-            tvNewsDescription = itemView.findViewById(R.id.tvNewsDescription);
             ivNewsImage = itemView.findViewById(R.id.ivNewsImage);
             newsItemLayout = itemView.findViewById(R.id.newsItemLayout);
         }
