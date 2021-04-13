@@ -7,5 +7,10 @@
     <string name="menuSettings">Settings</string>
     <string name="settingsLabel">Settings</string>
     <string name="tvDarkMode">Dark Mode</string>
+    <string name="tvNewsAuthor">Author</string>
+    <string name="tvNewsTitle">Title</string>
+    <string name="tvNewsDescription">Description</string>
+    <string name="tvNewsDate">Date</string>
+    <string name="ivNewsImageDescription">News Image</string>
 
 </resources>
