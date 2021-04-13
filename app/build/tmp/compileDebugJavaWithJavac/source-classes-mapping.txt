@@ -1,0 +1,16 @@
+com/example/millennialnews/BuildConfig.java
+ com.example.millennialnews.BuildConfig
+com/example/millennialnews/SettingsActivity.java
+ com.example.millennialnews.SettingsActivity
+com/example/millennialnews/LoginActivity.java
+ com.example.millennialnews.LoginActivity
+com/example/millennialnews/NewsAdapter.java
+ com.example.millennialnews.NewsAdapter
+ com.example.millennialnews.NewsAdapter$NewsViewHolder
+com/example/millennialnews/NewsArticle.java
+ com.example.millennialnews.NewsArticle
+com/example/millennialnews/MainActivity.java
+ com.example.millennialnews.MainActivity
+ com.example.millennialnews.MainActivity$1
+ com.example.millennialnews.MainActivity$2
+ com.example.millennialnews.MainActivity$3
