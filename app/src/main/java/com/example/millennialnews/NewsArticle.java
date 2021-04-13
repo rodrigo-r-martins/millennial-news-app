@@ -1,16 +1,18 @@
 package com.example.millennialnews;
 
-public class News {
+import com.kwabenaberko.newsapilib.models.Source;
 
-    private String source;
+public class NewsArticle {
+
+    private Source source;
     private String author;
     private String title;
     private String description;
     private String date;
     private String image;
 
-    public News(
-            String source,
+    public NewsArticle(
+            Source source,
             String author,
             String title,
             String description,
@@ -25,11 +27,11 @@ public class News {
         this.image = image;
     }
 
-    public String getSource() {
+    public Source getSource() {
         return source;
     }
 
-    public void setSource(String source) {
+    public void setSource(Source source) {
         this.source = source;
     }
 
@@ -73,13 +75,15 @@ public class News {
         this.image = image;
     }
 
+
     @Override
     public String toString() {
         return "News {" +
-                "source='" + source + '\'' +
+                "source='" + source.getName() + '\'' +
                 ", author='" + author + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
+                ", date='" + date + '\'' +
                 ", image='" + image + '\'' +
                 '}';
     }
