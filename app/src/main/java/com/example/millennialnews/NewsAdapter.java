@@ -13,9 +13,9 @@ import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
 
-    private final List<News> newsList;
+    private final List<NewsArticle> newsList;
 
-    public NewsAdapter(List<News> newsList) {
+    public NewsAdapter(List<NewsArticle> newsList) {
         this.newsList = newsList;
     }
 
@@ -31,7 +31,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         holder.tvNewsTitle.setText(newsList.get(position).getTitle());
         holder.tvNewsAuthor.setText(String.format(
                 "%s: { %s }",
-                newsList.get(position).getSource(),
+                newsList.get(position).getSource().getName(),
                 newsList.get(position).getAuthor()));
         holder.tvNewsDate.setText(newsList.get(position).getDate());
         holder.tvNewsDescription.setText(newsList.get(position).getDescription());
