@@ -3,12 +3,10 @@ package com.example.millennialnews;
 import com.kwabenaberko.newsapilib.models.Source;
 
 public class NewsArticle {
-
     private Source source;
     private String author;
     private String title;
     private String description;
-    private String content;
     private String date;
     private String image;
 
@@ -75,7 +73,6 @@ public class NewsArticle {
     public void setImage(String image) {
         this.image = image;
     }
-
 
     @Override
     public String toString() {
