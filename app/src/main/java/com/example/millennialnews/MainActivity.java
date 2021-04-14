@@ -1,6 +1,7 @@
 package com.example.millennialnews;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
@@ -12,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
+
 import com.kwabenaberko.newsapilib.NewsApiClient;
 import com.kwabenaberko.newsapilib.models.Source;
 import com.kwabenaberko.newsapilib.models.request.EverythingRequest;
@@ -27,9 +30,26 @@ public class MainActivity extends AppCompatActivity {
     private EditText etSearch;
     private RecyclerView rvNews;
 
+    private Switch switchMode;
+    SaveState saveState;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        saveState = new SaveState(this);
+        if(saveState.getState() == true)
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        else
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+        setContentView(R.layout.activity_settings);
+
+        switchMode = findViewById(R.id.switchMode);
+
+        if(saveState.getState() == true)
+            switchMode.setChecked(true);
+
         setContentView(R.layout.activity_main);
 
         btnSearch = findViewById(R.id.btnSearch);
