@@ -1,5 +1,6 @@
 package com.example.millennialnews;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -10,27 +11,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class LoadImageNews extends AsyncTask<String, Void, Bitmap> {
-
+    @SuppressLint("StaticFieldLeak")
     ImageView imageView;
 
     public LoadImageNews(ImageView imageView) {
         this.imageView = imageView;
     }
 
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
-
-    @Override
-    protected void onProgressUpdate(Void... values) {
-        super.onProgressUpdate(values);
-    }
-
     @Override
     protected Bitmap doInBackground(String... strings) {
-        Log.i("ON DO IN BACKGROUND", "Starting...");
         try {
             URL url = new URL(strings[0]);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -50,7 +39,6 @@ public class LoadImageNews extends AsyncTask<String, Void, Bitmap> {
 
     @Override
     protected void onPostExecute(Bitmap bitmap) {
-        Log.i("Post Execute", "Starting...");
         if (imageView != null && bitmap != null) {
             Log.i("Post Execute", "Load Image");
             imageView.setImageBitmap(bitmap);
