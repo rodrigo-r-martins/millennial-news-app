@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 public class ArticleNewsActivity extends AppCompatActivity {
 
@@ -15,9 +17,26 @@ public class ArticleNewsActivity extends AppCompatActivity {
     TextView tvNewsContentFull;
     ImageView ivNewsImageFull;
 
+    private Switch switchMode;
+    SaveState saveState;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        saveState = new SaveState(this);
+        if(saveState.getState() == true)
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        else
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+        setContentView(R.layout.activity_settings);
+
+        switchMode = findViewById(R.id.switchMode);
+
+        if(saveState.getState() == true)
+            switchMode.setChecked(true);
+
         setContentView(R.layout.activity_article_news);
 
         tvNewsTitleFull = findViewById(R.id.tvNewsTitleFull);
