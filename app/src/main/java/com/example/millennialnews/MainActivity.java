@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     private Button btnSearch;
     private EditText etSearch;
     private RecyclerView rvNews;
-
     private Switch switchMode;
     SaveState saveState;
 
