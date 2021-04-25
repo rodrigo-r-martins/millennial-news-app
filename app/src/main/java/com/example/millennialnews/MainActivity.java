@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Switch switchMode;
     SaveState saveState;
+    private LoadNews loadNews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
 
         btnSearch = findViewById(R.id.btnSearch);
         etSearch = findViewById(R.id.etSearch);
-        rvNews = findViewById(R.id.rvNews);
+//        rvNews = findViewById(R.id.rvNews);
+        rvNews = findViewById(R.id.rvNewsSearch);
 
 //        if (etSearch.getText().toString().isEmpty()) {
             List<NewsArticle> articleList = getFreshNews();
@@ -60,11 +63,17 @@ public class MainActivity extends AppCompatActivity {
             rvNews.setAdapter(newsAdapter);
             rvNews.setLayoutManager(new LinearLayoutManager(this));
 //        } else {
-//            List<NewsArticle> searchedArticleList = getNews();
-//            NewsAdapter newsAdapter = new NewsAdapter(searchedArticleList);
-//            rvNews.setAdapter(newsAdapter);
-//            rvNews.setLayoutManager(new LinearLayoutManager(this));
-//        }
+
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String queryString = etSearch.getText().toString();
+                List<NewsArticle> articleListSearch = new ArrayList<>();
+                loadNews = new LoadNews(articleList, articleListSearch, newsAdapter);
+                loadNews.execute(queryString);
+
+            }
+        });
     }
 
     @Override
@@ -127,8 +136,7 @@ public class MainActivity extends AppCompatActivity {
         return articleList;
     }
 
-    public List<NewsArticle> getNews() {
-        String queryString = etSearch.getText().toString();
+    public List<NewsArticle> getNews(String queryString) {
 
         List<NewsArticle> articleList = new ArrayList<>();
 
