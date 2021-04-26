@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,10 +29,11 @@ public class MainActivity extends AppCompatActivity {
     private Button btnSearch;
     private EditText etSearch;
     private RecyclerView rvNews;
-
     private Switch switchMode;
     SaveState saveState;
-    private LoadNews loadNews;
+    private List<NewsArticle> articleList  = new ArrayList<>();
+    private List<NewsArticle> articleListSearch  = new ArrayList<>();
+    private NewsAdapter newsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
         rvNews = findViewById(R.id.rvNewsSearch);
 
 //        if (etSearch.getText().toString().isEmpty()) {
-            List<NewsArticle> articleList = getFreshNews();
-            NewsAdapter newsAdapter = new NewsAdapter(articleList);
+            articleList = getFreshNews();
+            newsAdapter = new NewsAdapter(articleList);
             rvNews.setAdapter(newsAdapter);
             rvNews.setLayoutManager(new LinearLayoutManager(this));
 //        } else {
@@ -68,9 +70,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String queryString = etSearch.getText().toString();
-                List<NewsArticle> articleListSearch = new ArrayList<>();
-                loadNews = new LoadNews(articleList, articleListSearch, newsAdapter);
-                loadNews.execute(queryString);
+                getNews(queryString);
+                //List<NewsArticle> articleListSearch = new ArrayList<>();
+//                loadNews = new LoadNews(articleList, articleListSearch, newsAdapter);
+//                loadNews.execute(queryString);
 
             }
         });
@@ -136,16 +139,13 @@ public class MainActivity extends AppCompatActivity {
         return articleList;
     }
 
-    public List<NewsArticle> getNews(String queryString) {
-
-        List<NewsArticle> articleList = new ArrayList<>();
+    public void getNews(String queryString) {
 
         NewsApiClient newsApiClient = new NewsApiClient("8b88ab2e81df4547abfc23f6fc69311c");
-
         newsApiClient.getEverything(
                 new EverythingRequest.Builder()
                         .q(queryString)
-                        .sortBy("popularity")
+                        .sortBy("relevancy")
                         .build(),
                 new NewsApiClient.ArticlesResponseCallback() {
                     @Override
@@ -158,8 +158,16 @@ public class MainActivity extends AppCompatActivity {
                             String date = response.getArticles().get(i).getPublishedAt();
                             String image = response.getArticles().get(i).getUrlToImage();
                             NewsArticle article = new NewsArticle(source, author, title, description, date, image);
-                            articleList.add(article);
+                            articleListSearch.add(article);
                         }
+                        Log.d("getNewsALS", articleListSearch.toString());
+                        Log.d("getNewsAL", articleList.toString());
+                        articleList.clear();
+                        articleList.addAll(articleListSearch);
+                        Log.d("getNewsAfterAddAll", articleList.toString());
+                        newsAdapter.notifyDataSetChanged();
+
+
                     }
                     @Override
                     public void onFailure(Throwable throwable) {
@@ -167,6 +175,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
-        return articleList;
     }
+
 }
