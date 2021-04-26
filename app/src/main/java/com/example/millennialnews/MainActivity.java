@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnSearch;
     private EditText etSearch;
     private RecyclerView rvNews;
+
     private LoadNews loadNews;
     private EditText etUserFirstname;
     private EditText etUserLastname;
@@ -91,9 +92,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String queryString = etSearch.getText().toString();
-//                List<NewsArticle> articleListSearch = new ArrayList<>();
-//                loadNews = new LoadNews(articleList, articleListSearch, newsAdapter);
-//                loadNews.execute(queryString);
                 getNews(queryString);
             }
         });
@@ -290,4 +288,5 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
     }
+
 }
