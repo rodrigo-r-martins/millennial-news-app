@@ -31,8 +31,9 @@ public class LoadImageNews extends AsyncTask<String, Void, Bitmap> {
             is.close();
             return bitmap;
         } catch (Exception e) {
-            Log.e("Image", "Failed to load image", e);
-            Log.e("error", e.getMessage());
+            imageView.setImageResource(R.drawable.not_found_image);
+//            Log.e("Image", "Failed to load image", e);
+//            Log.e("error", e.getMessage());
         }
         return null;
     }

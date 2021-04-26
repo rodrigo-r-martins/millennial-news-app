@@ -14,5 +14,7 @@
     <string name="ivNewsImageDescription">News Image</string>
     <string name="loginLabel">Log In</string>
     <string name="tvNewsContent">Content</string>
+    <string name="menuRegister">Register</string>
+    <string name="searchBarText" />
 
 </resources>
