@@ -15,6 +15,10 @@
             android:name=".ArticleNewsActivity"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:name=".RegisterActivity"
+            android:label="Register"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".LoginActivity"
             android:label="@string/loginLabel"
             android:parentActivityName=".MainActivity" />
