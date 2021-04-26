@@ -30,9 +30,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
         String fullTitle = newsList.get(position).getTitle();
-        int endPoint = fullTitle.lastIndexOf("-");
-        String title = fullTitle.substring(0, endPoint);
-        holder.tvNewsTitle.setText(title);
+        //int endPoint = fullTitle.lastIndexOf("-");
+        //String title = fullTitle.substring(0, endPoint);
+        holder.tvNewsTitle.setText(fullTitle);
         holder.tvNewsAuthor.setText(String.format(
                 "%s: { %s }",
                 newsList.get(position).getSource().getName(),
@@ -48,7 +48,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             @Override
             public void onClick(View v) {
                 intent = new Intent(holder.itemView.getContext(), ArticleNewsActivity.class);
-                intent.putExtra("title", title);
+                intent.putExtra("title", fullTitle);
                 intent.putExtra("author", newsList.get(position).getAuthor());
                 intent.putExtra("date", date);
                 intent.putExtra("content", newsList.get(position).getDescription());
