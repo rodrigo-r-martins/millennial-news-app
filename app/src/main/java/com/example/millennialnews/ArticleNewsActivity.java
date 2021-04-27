@@ -3,6 +3,7 @@ package com.example.millennialnews;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ public class ArticleNewsActivity extends AppCompatActivity {
     ImageView ivNewsImageFull;
 
     private Switch switchMode;
+    private boolean viewingArticle;
     SaveState saveState;
     
     @Override
@@ -36,6 +38,8 @@ public class ArticleNewsActivity extends AppCompatActivity {
 
         if(saveState.getState() == true)
             switchMode.setChecked(true);
+
+        viewingArticle = true;
 
         setContentView(R.layout.activity_article_news);
 
