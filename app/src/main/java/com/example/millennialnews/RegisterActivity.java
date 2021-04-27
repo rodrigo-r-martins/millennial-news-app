@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 public class RegisterActivity extends AppCompatActivity {
     private Switch switchMode;
     SaveState saveState;
-    private LoadNews loadNews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -35,18 +35,10 @@ public class MainActivity extends AppCompatActivity {
     private Button btnSearch;
     private EditText etSearch;
     private RecyclerView rvNews;
-
-    private LoadNews loadNews;
-    private EditText etUserFirstname;
-    private EditText etUserLastname;
-    private EditText etUserId;
-    private EditText etUserEmail;
-    private EditText etUserPassword;
-    private DatabaseReference db;
-    private User currentUser;
-
     private Switch switchMode;
     SaveState saveState;
+    boolean isLoggedIn;
+    boolean viewingArticle;
 
     private List<NewsArticle> articleList  = new ArrayList<>();
     private List<NewsArticle> articleListSearch  = new ArrayList<>();
@@ -74,11 +66,7 @@ public class MainActivity extends AppCompatActivity {
         btnSearch = findViewById(R.id.btnSearch);
         etSearch = findViewById(R.id.etSearch);
         rvNews = findViewById(R.id.rvNews);
-//        etUserFirstname = findViewById(R.id.etUserFirstname);
-//        etUserLastname = findViewById(R.id.etUserLastname);
-//        etUserId = findViewById(R.id.etUserId);
-//        etUserEmail = findViewById(R.id.etUserEmail);
-//        etUserPassword = findViewById(R.id.etUserPassword);
+
 
         etSearch.requestFocus();
         // === LOADING ARTICLES TO THE MAIN PAGE ===
@@ -95,97 +83,16 @@ public class MainActivity extends AppCompatActivity {
                 getNews(queryString);
             }
         });
-
-        // === DATABASE ===
-
-        // TO ADD IN LOGIN ACTIVITY
-//        db = FirebaseDatabase.getInstance().getReference("users");
-//        db.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                String userEmail = etUserEmail.getText().toString();
-//                String userPassword = etUserPassword.getText().toString();
-//                User user;
-//                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-//                    user = ds.getValue(User.class);
-//                    if (user != null) {
-//                        if (user.getEmail().equals(userEmail) && user.getPassword().equals(userPassword)) {
-//                            currentUser = user;
-//                        } else {
-//                            Toast.makeText(MainActivity.this, "Wrong credentials. Try again", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                }
-//            }
-//            @Override
-//            public void onCancelled(DatabaseError error) {
-//                // Failed to read value
-//                Log.w("DATABASE", "Failed to read value.", error.toException());
-//            }
-//        });
-//
-//        // TO ADD IN REGISTER ACTIVITY
-//        db = FirebaseDatabase.getInstance().getReference("users");
-//        db.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                String userEmail = etUserEmail.getText().toString();
-//                String userPassword = etUserPassword.getText().toString();
-//                String userFirstName = etUserFirstname.getText().toString();
-//                String userLastName = etUserLastname.getText().toString();
-//                User user;
-//                boolean doesUserExist = false;
-//                int counter = 0;
-//                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-//                    user = ds.getValue(User.class);
-//                    if (user != null) {
-//                        if (user.getEmail().equals(userEmail)) {
-//                            Toast.makeText(MainActivity.this, "User already exists!", Toast.LENGTH_SHORT).show();
-//                            doesUserExist = true;
-//                        }
-//                    }
-//                    counter++;
-//                }
-//
-//                if (!doesUserExist) {
-//                    if (userFirstName.isEmpty()) {
-//                        etUserFirstname.setError("Please enter the First Name");
-//                    } else if (userLastName.isEmpty()) {
-//                        etUserLastname.setError("Please enter the Last Name");
-//                    } else if (userEmail.isEmpty()) {
-//                        etUserEmail.setError("Please enter the Email");
-//                    } else if (userPassword.isEmpty()) {
-//                        etUserPassword.setError("Please enter a Password");
-//                    } else {
-//                        // If none of the values are empty,
-//                        // add user to the Database and show a Toast with confirmation
-//                        User newUser = new User(
-//                                userFirstName,
-//                                userLastName,
-//                                userEmail,
-//                                userPassword
-//                        );
-//                        db.child(String.valueOf(counter)).setValue(newUser);
-//                        etUserFirstname.setText("");
-//                        etUserLastname.setText("");
-//                        etUserEmail.setText("");
-//                        etUserPassword.setText("");
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError error) {
-//                // Failed to read value
-//                Log.w("DATABASE", "Failed to read value.", error.toException());
-//            }
-//        });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
+        if (!isLoggedIn)
         inflater.inflate(R.menu.menu, menu);
+        else
+            inflater.inflate(R.menu.menu2, menu);
+
         return true;
     }
 
@@ -197,12 +104,21 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.menuLogIn) {
+            if (isLoggedIn) {
+                item.setTitle("Log Out");
+            }
             openLogInActivity(item);
             return true;
         }
         if (id == R.id.menuRegister) {
             openLogInActivity(item);
             return true;
+        }
+        if (id == R.id.menuLogOut) {
+        isLoggedIn = false;
+
+        Intent intent= new Intent(this, MainActivity.class);
+        startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -217,10 +133,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-//    private void openRegisterActivity(MenuItem item) {
-//        Intent intent = new Intent(this, RegisterActivity.class);
-//        startActivity(intent);
-//    }
+    private void openRegisterActivity(MenuItem item) {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
 
     public List<NewsArticle> getFreshNews() {
         List<NewsArticle> articleList = new ArrayList<>();
@@ -289,4 +205,13 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
-}
+    @Override
+    public void onResume() {
+        super.onResume();
+        isLoggedIn = getIntent().getBooleanExtra("isLoggedIn", false);
+        if (!viewingArticle)
+        invalidateOptionsMenu();
+    }
+
+
+        }
