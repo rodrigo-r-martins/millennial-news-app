@@ -16,8 +16,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     private final List<NewsArticle> newsList;
     private Intent intent;
 
-    public NewsAdapter(List<NewsArticle> newsList) {
+    private String userEmail;
+
+    public NewsAdapter(List<NewsArticle> newsList, Intent intent) {
+
         this.newsList = newsList;
+        this.intent = intent;
     }
 
     @NonNull
@@ -47,12 +51,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         holder.newsItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(holder.itemView.getContext(), ArticleNewsActivity.class);
+
+//                intent = new Intent(holder.itemView.getContext(), ArticleNewsActivity.class);
+
                 intent.putExtra("title", fullTitle);
                 intent.putExtra("author", newsList.get(position).getAuthor());
                 intent.putExtra("date", date);
                 intent.putExtra("content", newsList.get(position).getDescription());
                 intent.putExtra("image", newsList.get(position).getImage());
+                intent.putExtra("viewing_article", true);
+
                 holder.itemView.getContext().startActivity(intent);
             }
         });
