@@ -6,32 +6,35 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tvLoginIn"
+        android:id="@+id/tvRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="LOG IN"
+        android:text="REGISTER"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/firstName"
         android:layout_width="239dp"
         android:layout_height="38dp"
-        android:layout_marginTop="108dp"
+        android:layout_marginTop="32dp"
         android:hint="@string/enter_first_name_register_ET"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tvRegister" />
 
     <EditText
         android:id="@+id/lastName"
         android:layout_width="239dp"
         android:layout_height="38dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="8dp"
         android:hint="@string/enter_last_name_register_ET"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/firstName" />
@@ -40,8 +43,9 @@
         android:id="@+id/email"
         android:layout_width="239dp"
         android:layout_height="38dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="8dp"
         android:hint="@string/email_register_ET"
+        android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lastName" />
@@ -50,29 +54,20 @@
         android:id="@+id/password"
         android:layout_width="239dp"
         android:layout_height="38dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:hint="@string/password_register_ET"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email" />
-
-    <EditText
-        android:id="@+id/confirm_password"
-        android:layout_width="239dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="20dp"
-        android:hint="@string/confirm_password_register_ET"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
 
     <Button
         android:id="@+id/reg_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="8dp"
         android:text="@string/register_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirm_password" />
+        app:layout_constraintTop_toBottomOf="@+id/password" />
 </androidx.constraintlayout.widget.ConstraintLayout>

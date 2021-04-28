@@ -6,9 +6,12 @@
 <!--        android:id="@+id/menuRegister"-->
 <!--        android:title="@string/menuRegister" />-->
     <item
-        android:id="@+id/menuLogOut"
-        android:title="@string/menuOut"/>
+        android:id="@+id/menuProfile"
+        android:title="@string/profile" />
     <item
         android:id="@+id/menuSettings"
         android:title="@string/menuSettings" />
+    <item
+        android:id="@+id/menuLogOut"
+        android:title="@string/menuOut"/>
 </menu>
