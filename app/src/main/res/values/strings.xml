@@ -17,16 +17,17 @@
     <string name="menuRegister">Register</string>
     <string name="searchBarText" />
 
-<!--    String values for login and sign-up -->
+    <!--    String values for login and sign-up -->
     <string name="email_login">Email</string>
     <string name="password_login">Password</string>
     <string name="log_in_btn">Log in</string>
     <string name="register_btn">Register</string>
     <string name="enter_first_name_register_ET">Enter first name</string>
     <string name="enter_last_name_register_ET">Enter last name</string>
-    <string name="email_register_ET">email</string>
+    <string name="email_register_ET">Email</string>
     <string name="password_register_ET">Password</string>
     <string name="confirm_password_register_ET">Confirm Password</string>
     <string name="menuOut">Log Out</string>
+    <string name="profile">Profile</string>
 
 </resources>

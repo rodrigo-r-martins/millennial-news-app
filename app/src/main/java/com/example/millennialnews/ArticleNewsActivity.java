@@ -11,14 +11,21 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ArticleNewsActivity extends AppCompatActivity {
 
@@ -30,9 +37,10 @@ public class ArticleNewsActivity extends AppCompatActivity {
     Button btnFav;
     private DatabaseReference db;
     private Switch switchMode;
+    private List<NewsArticle> favArticles = new ArrayList<>();
     private boolean viewingArticle;
     SaveState saveState;
-    String userEmail;
+    String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +62,7 @@ public class ArticleNewsActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
-        userEmail = getIntent().getStringExtra("userEmail");
+        userID = getIntent().getStringExtra("userID");
         viewingArticle = true;
         tvNewsTitleFull = findViewById(R.id.tvNewsTitleFull);
         tvNewsAuthorFull = findViewById(R.id.tvNewsAuthorFull);
@@ -77,21 +85,40 @@ public class ArticleNewsActivity extends AppCompatActivity {
         LoadImageNews imageFull = new LoadImageNews(ivNewsImageFull);
         imageFull.execute(image);
 
-        if (userEmail != null)
-            Log.d("ArticleNewsActivity", userEmail);
+        if (userID != null)
+            Log.d("ArticleNewsActivity", userID);
 
         db = FirebaseDatabase.getInstance().getReference("users");
 
-//        btn_fav.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                    Intent intent = new Intent(v.getContext(), LoginActivity.class);
-//
-//                    db.addValueEventListener(new ValueEventListener() {
-//
+        btnFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Query queryRef = db.orderByChild("users").equalTo(userID);
+                    db.addValueEventListener(new ValueEventListener() {
+
+
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            if (userID != null){
+                                Log.d("ondatachange", userID);
+                            }
+                            Log.d("ondatachange", snapshot.child(userID).toString());
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+            }
+                                  });
+    }
+}
+
 //                        @Override
 //                        public void onDataChange(DataSnapshot dataSnapshot) {
+//                            dataSnapshot.child()
 //
 //                            int counter = 0;
 //                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
@@ -143,8 +170,9 @@ public class ArticleNewsActivity extends AppCompatActivity {
 //                        });
 //            }
 //        });
-    }
-}
+//    }
+//}
+
 
 
 

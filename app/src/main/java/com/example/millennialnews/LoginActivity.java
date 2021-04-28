@@ -27,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     private User currentUser;
     private Switch switchMode;
     SaveState saveState;
+    String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                         User user;
                         Intent intent = new Intent(v.getContext(), MainActivity.class);
                         boolean isLoggedIn = false;
+                        int counter = 0;
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
                             user = ds.getValue(User.class);
                             Log.d("LoginActivity - DB", ds.getValue().toString());
@@ -79,15 +81,21 @@ public class LoginActivity extends AppCompatActivity {
                                     isLoggedIn = true;
                                     Log.d("LoginActivity - DB", currentUser.toString());
                                     intent.putExtra("isLoggedIn", isLoggedIn);
-                                    intent.putExtra("userEmail", currentUser.getEmail());
+                                    Log.d("LOGINACTIVITY COUNTER", Integer.toString(counter));
+                                    userID = Integer.toString(counter);
+                                    intent.putExtra("userID", userID);
                                     break;
-                                } else {
-                                    Toast.makeText(LoginActivity.this, "Wrong credentials. Try again", Toast.LENGTH_SHORT).show();
                                 }
                             }
+                            counter++;
                         }
-                        startActivity(intent);
-                        finish();
+                        if (!isLoggedIn) {
+                            Toast.makeText(LoginActivity.this, "Wrong Credentials", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            startActivity(intent);
+                            finish();
+                        }
                     }
                     @Override
                     public void onCancelled(DatabaseError error) {

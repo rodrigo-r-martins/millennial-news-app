@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private List<NewsArticle> articleList  = new ArrayList<>();
     private List<NewsArticle> articleListSearch  = new ArrayList<>();
     private NewsAdapter newsAdapter;
-    String userEmail;
+    String userID;
     Bundle extras;
 
     @Override
@@ -67,9 +67,9 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             extras = getIntent().getExtras();
             if (extras == null) {
-                userEmail = "";
+                userID = "";
             } else {
-                userEmail = extras.getString("userEmail");
+                userID = extras.getString("userID");
             }
         }
 
@@ -125,6 +125,12 @@ public class MainActivity extends AppCompatActivity {
             openRegisterActivity(item);
             return true;
         }
+
+        if (id == R.id.menuProfile) {
+            openProfileActivity(item);
+            return true;
+        }
+
         if (id == R.id.menuLogOut) {
         isLoggedIn = false;
 
@@ -136,6 +142,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void openLogInActivity(MenuItem item) {
         Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    private void openProfileActivity(MenuItem item) {
+        Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
     }
 
@@ -220,18 +231,20 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         isLoggedIn = getIntent().getBooleanExtra("isLoggedIn", false);
         viewingArticle = getIntent().getBooleanExtra("viewing_article", false);
+        userID = getIntent().getStringExtra("userID");
         Log.d("MainActivity - onResume", "isLoggedIn: " + isLoggedIn);
         Log.d("MainActivity - onResume", "viewArticle: " + viewingArticle);
         if (isLoggedIn && !viewingArticle){
             invalidateOptionsMenu();
         }
         if (!isLoggedIn) {
-            userEmail = "";
+            userID = "";
         }
 
-        Log.d("MainActivity - onResume", "userEmail: " + userEmail);
+        Log.d("MainActivity - onResume", "userID: " + userID);
         intentArticle = new Intent(MainActivity.this, ArticleNewsActivity.class);
-        intentArticle.putExtra("userEmail", userEmail);
+        Log.d("SEND TO ARTICLE", userID);
+        intentArticle.putExtra("userID", userID);
         if (intentArticle != null) {
             newsAdapter = new NewsAdapter(articleList, intentArticle);
             rvNews.setAdapter(newsAdapter);
