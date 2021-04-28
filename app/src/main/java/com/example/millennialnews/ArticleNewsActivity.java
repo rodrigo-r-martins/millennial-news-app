@@ -27,12 +27,12 @@ public class ArticleNewsActivity extends AppCompatActivity {
     TextView tvNewsDateFull;
     TextView tvNewsContentFull;
     ImageView ivNewsImageFull;
-    Button btn_fav;
+    Button btnFav;
     private DatabaseReference db;
-
     private Switch switchMode;
     private boolean viewingArticle;
     SaveState saveState;
+    String userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,24 +47,23 @@ public class ArticleNewsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         switchMode = findViewById(R.id.switchMode);
-
         if(saveState.getState() == true)
             switchMode.setChecked(true);
-
-        viewingArticle = true;
 
         setContentView(R.layout.activity_article_news);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
+        userEmail = getIntent().getStringExtra("userEmail");
+        viewingArticle = true;
         tvNewsTitleFull = findViewById(R.id.tvNewsTitleFull);
         tvNewsAuthorFull = findViewById(R.id.tvNewsAuthorFull);
         tvNewsDateFull = findViewById(R.id.tvNewsDateFull);
         ivNewsImageFull = findViewById(R.id.ivNewsImageFull);
         tvNewsContentFull = findViewById(R.id.tvNewsContentFull);
-        btn_fav = findViewById(R.id.btn_fav);
+        btnFav = findViewById(R.id.btn_fav);
 
-        Intent intent = ((Activity) this).getIntent();
+        Intent intent = this.getIntent();
         String title = intent.getStringExtra("title");
         String author = intent.getStringExtra("author");
         String date = intent.getStringExtra("date");
@@ -78,11 +77,10 @@ public class ArticleNewsActivity extends AppCompatActivity {
         LoadImageNews imageFull = new LoadImageNews(ivNewsImageFull);
         imageFull.execute(image);
 
-        String user_email = getIntent().getStringExtra("userEmail");
-        Log.d("ArticleNewsActivity", user_email);
+        if (userEmail != null)
+            Log.d("ArticleNewsActivity", userEmail);
 
         db = FirebaseDatabase.getInstance().getReference("users");
-        Log.i("DATABASE", db.toString());
 
 //        btn_fav.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -146,17 +144,6 @@ public class ArticleNewsActivity extends AppCompatActivity {
 //            }
 //        });
     }
-
-
-
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        Intent intent = new Intent(this, MainActivity.class);
-//        viewingArticle = true;
-//        intent.putExtra("viewingArticle", viewingArticle);
-//        Log.d("viewingArt", Boolean.toString(viewingArticle));
-//    }
 }
 
 

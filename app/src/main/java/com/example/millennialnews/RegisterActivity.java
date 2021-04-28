@@ -20,10 +20,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class RegisterActivity extends AppCompatActivity {
+
     private Switch switchMode;
     SaveState saveState;
-
-    private EditText firstName, lastName, password, email, conf_passwd;
+    private EditText firstName, lastName, password, email;
     private Button signUpBtn;
     private DatabaseReference db;
 
@@ -44,35 +44,31 @@ public class RegisterActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
-        signUpBtn = (Button) findViewById(R.id.reg_button);
-        firstName = (EditText) findViewById(R.id.firstName);
-        lastName = (EditText) findViewById(R.id.lastName);
-        email = (EditText) findViewById(R.id.email);
-        password = (EditText) findViewById(R.id.password);
-        conf_passwd = (EditText) findViewById(R.id.confirm_password);
+        // INITIALIZING VARIABLES
+        signUpBtn = findViewById(R.id.reg_button);
+        firstName = findViewById(R.id.firstName);
+        lastName = findViewById(R.id.lastName);
+        email = findViewById(R.id.email);
+        password = findViewById(R.id.password);
 
+        // DATABASE
         db = FirebaseDatabase.getInstance().getReference("users");
-        Log.i("DATABASE", db.toString());
+        Log.d("RegisterActivity - DB", db.toString());
 
+        // REGISTER PROCESSING
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent(v.getContext(), LoginActivity.class);
-
+                Intent loginIntent = new Intent(v.getContext(), LoginActivity.class);
                 db.addValueEventListener(new ValueEventListener() {
-
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-
                         String userFirstName = firstName.getText().toString().trim();
                         String userLastName = lastName.getText().toString().trim();
                         String userEmail = email.getText().toString().trim();
                         String userPassword = password.getText().toString().trim();
-//              String reg_conPassWd = conf_passwd.getText().toString().trim();
                         User user;
                         boolean doesUserExist = false;
-
                         int counter = 0;
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
                             user = ds.getValue(User.class);
@@ -87,7 +83,6 @@ public class RegisterActivity extends AppCompatActivity {
                         if (!doesUserExist) {
                             if (userFirstName.isEmpty()) {
                                 firstName.setError("Please enter the First Name");
-                                Log.w("DATABASE", "First name is empty");
                             } else if (userLastName.isEmpty()) {
                                 lastName.setError("Please enter the Last Name");
                             } else if (userEmail.isEmpty()) {
@@ -109,84 +104,17 @@ public class RegisterActivity extends AppCompatActivity {
                                 email.setText("");
                                 password.setText("");
                                 Toast.makeText(RegisterActivity.this, "Successfully registered!", Toast.LENGTH_LONG).show();
-                                startActivity(intent);
+                                startActivity(loginIntent);
                             }
                         }
-                        Toast.makeText(RegisterActivity.this, "Successfully registered! outter 1", Toast.LENGTH_LONG).show();
                     }
-
                     @Override
                     public void onCancelled(DatabaseError error) {
                         // Failed to read value
-                        Log.w("DATABASE", "Failed to read value.", error.toException());
+                        Log.w("RegisterActivity - DB", "Failed to read value.", error.toException());
                     }
                 });
-                Toast.makeText(RegisterActivity.this, "Successfully registered! outter", Toast.LENGTH_LONG).show();
-
             }
         });
     }
 }
-
-        // TO ADD IN REGISTER ACTIVITY
-//        db = FirebaseDatabase.getInstance().getReference("users");
-////        db.addValueEventListener(new ValueEventListener() {
-////            @Override
-////            public void onDataChange(DataSnapshot dataSnapshot) {
-////                String userEmail = etUserEmail.getText().toString();
-////                String userPassword = etUserPassword.getText().toString();
-////                String userFirstName = etUserFirstname.getText().toString();
-////                String userLastName = etUserLastname.getText().toString();
-////                User user;
-////                boolean doesUserExist = false;
-////                int counter = 0;
-////                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-////                    user = ds.getValue(User.class);
-////                    if (user != null) {
-////                        if (user.getEmail().equals(userEmail)) {
-////                            Toast.makeText(MainActivity.this, "User already exists!", Toast.LENGTH_SHORT).show();
-////                            doesUserExist = true;
-////                        }
-////                    }
-////                    counter++;
-////                }
-////
-////                if (!doesUserExist) {
-////                    if (userFirstName.isEmpty()) {
-////                        etUserFirstname.setError("Please enter the First Name");
-////                    } else if (userLastName.isEmpty()) {
-////                        etUserLastname.setError("Please enter the Last Name");
-////                    } else if (userEmail.isEmpty()) {
-////                        etUserEmail.setError("Please enter the Email");
-////                    } else if (userPassword.isEmpty()) {
-////                        etUserPassword.setError("Please enter a Password");
-////                    } else {
-////                        // If none of the values are empty,
-////                        // add user to the Database and show a Toast with confirmation
-////                        User newUser = new User(
-////                                userFirstName,
-////                                userLastName,
-////                                userEmail,
-////                                userPassword
-////                        );
-////                        db.child(String.valueOf(counter)).setValue(newUser);
-////                        etUserFirstname.setText("");
-////                        etUserLastname.setText("");
-////                        etUserEmail.setText("");
-////                        etUserPassword.setText("");
-////                    }
-////                }
-////            }
-////
-////            @Override
-////            public void onCancelled(DatabaseError error) {
-////                // Failed to read value
-////                Log.w("DATABASE", "Failed to read value.", error.toException());
-////            }
-////        });
-
-
-
-
-
-

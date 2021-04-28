@@ -20,6 +20,7 @@ public class LoadImageNews extends AsyncTask<String, Void, Bitmap> {
 
     @Override
     protected Bitmap doInBackground(String... strings) {
+        final int maxBitmapSize = 100 * 1024 * 1024;
         try {
             URL url = new URL(strings[0]);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -28,21 +29,28 @@ public class LoadImageNews extends AsyncTask<String, Void, Bitmap> {
             }
             InputStream is = con.getInputStream();
             Bitmap bitmap = BitmapFactory.decodeStream(is);
+            if (bitmap.getByteCount() > maxBitmapSize) {
+                bitmap = null;
+            }
             is.close();
             return bitmap;
         } catch (Exception e) {
             imageView.setImageResource(R.drawable.not_found_image);
-//            Log.e("Image", "Failed to load image", e);
-//            Log.e("error", e.getMessage());
+            Log.w("LoadImageNews", "Failed to load image - Default image set up!");
         }
         return null;
     }
 
     @Override
     protected void onPostExecute(Bitmap bitmap) {
-        if (imageView != null && bitmap != null) {
-            Log.i("Post Execute", "Load Image");
-            imageView.setImageBitmap(bitmap);
+        try {
+            if (imageView != null && bitmap != null) {
+                Log.d("LoadImageNews: PostExec", "Load Image");
+                imageView.setImageBitmap(bitmap);
+            }
+        } catch (Exception e) {
+            Log.d("LoadImageNews: PostExec", "Error: Default image set up!");
+            imageView.setImageResource(R.drawable.not_found_image);
         }
     }
 }
