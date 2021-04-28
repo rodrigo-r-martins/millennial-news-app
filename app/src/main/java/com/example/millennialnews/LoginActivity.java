@@ -25,7 +25,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private DatabaseReference db;
     private User currentUser;
-
     private Switch switchMode;
     SaveState saveState;
 
@@ -48,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
         // INITIALIZING VARIABLES
         etUserEmail = findViewById(R.id.etUserEmail);
         etUserPassword = findViewById(R.id.etUserPassword);
@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // === DATABASE ===
         db = FirebaseDatabase.getInstance().getReference("users");
-        Log.w("DATABASE", db.toString());
+        Log.w("LoginActivity - DB", db.toString());
 
         // TO ADD IN LOGIN ACTIVITY
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -67,93 +67,35 @@ public class LoginActivity extends AppCompatActivity {
                         String userEmail = etUserEmail.getText().toString();
                         String userPassword = etUserPassword.getText().toString();
                         User user;
+                        Intent intent = new Intent(v.getContext(), MainActivity.class);
                         boolean isLoggedIn = false;
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
                             user = ds.getValue(User.class);
-                            Log.w("DATABASE", ds.getValue().toString());
+                            Log.d("LoginActivity - DB", ds.getValue().toString());
                             if (user != null) {
-                                Log.w("DATABASE", "Reading values");
                                 if (user.getEmail().equals(userEmail) && user.getPassword().equals(userPassword)) {
                                     Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                                     currentUser = user;
                                     isLoggedIn = true;
-                                    Log.w("DATABASE", currentUser.toString());
-                                    Intent intent = new Intent(v.getContext(), MainActivity.class);
+                                    Log.d("LoginActivity - DB", currentUser.toString());
                                     intent.putExtra("isLoggedIn", isLoggedIn);
                                     intent.putExtra("userEmail", currentUser.getEmail());
-                                    Log.w("DATABASE", currentUser.toString());
-                                    startActivity(intent);
+                                    break;
                                 } else {
                                     Toast.makeText(LoginActivity.this, "Wrong credentials. Try again", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
+                        startActivity(intent);
+                        finish();
                     }
                     @Override
                     public void onCancelled(DatabaseError error) {
                         // Failed to read value
-                        Log.w("DATABASE", "Failed to read value.", error.toException());
+                        Log.w("LoginActivity - DB", "Failed to read value.", error.toException());
                     }
                 });
             }
         });
     }
 }
-
-//
-//        // TO ADD IN REGISTER ACTIVITY
-//        db = FirebaseDatabase.getInstance().getReference("users");
-////        db.addValueEventListener(new ValueEventListener() {
-////            @Override
-////            public void onDataChange(DataSnapshot dataSnapshot) {
-////                String userEmail = etUserEmail.getText().toString();
-////                String userPassword = etUserPassword.getText().toString();
-////                String userFirstName = etUserFirstname.getText().toString();
-////                String userLastName = etUserLastname.getText().toString();
-////                User user;
-////                boolean doesUserExist = false;
-////                int counter = 0;
-////                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-////                    user = ds.getValue(User.class);
-////                    if (user != null) {
-////                        if (user.getEmail().equals(userEmail)) {
-////                            Toast.makeText(MainActivity.this, "User already exists!", Toast.LENGTH_SHORT).show();
-////                            doesUserExist = true;
-////                        }
-////                    }
-////                    counter++;
-////                }
-////
-////                if (!doesUserExist) {
-////                    if (userFirstName.isEmpty()) {
-////                        etUserFirstname.setError("Please enter the First Name");
-////                    } else if (userLastName.isEmpty()) {
-////                        etUserLastname.setError("Please enter the Last Name");
-////                    } else if (userEmail.isEmpty()) {
-////                        etUserEmail.setError("Please enter the Email");
-////                    } else if (userPassword.isEmpty()) {
-////                        etUserPassword.setError("Please enter a Password");
-////                    } else {
-////                        // If none of the values are empty,
-////                        // add user to the Database and show a Toast with confirmation
-////                        User newUser = new User(
-////                                userFirstName,
-////                                userLastName,
-////                                userEmail,
-////                                userPassword
-////                        );
-////                        db.child(String.valueOf(counter)).setValue(newUser);
-////                        etUserFirstname.setText("");
-////                        etUserLastname.setText("");
-////                        etUserEmail.setText("");
-////                        etUserPassword.setText("");
-////                    }
-////                }
-////            }
-////
-////            @Override
-////            public void onCancelled(DatabaseError error) {
-////                // Failed to read value
-////                Log.w("DATABASE", "Failed to read value.", error.toException());
-////            }
-////        });

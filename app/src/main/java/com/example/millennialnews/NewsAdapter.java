@@ -1,6 +1,7 @@
 package com.example.millennialnews;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +15,13 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
 
     private final List<NewsArticle> newsList;
-    private Intent intent;
-
+    private Intent intentArticles;
+    private Intent defaultIntent;
     private String userEmail;
 
-    public NewsAdapter(List<NewsArticle> newsList, Intent intent) {
-
+    public NewsAdapter(List<NewsArticle> newsList, Intent intentArticles) {
         this.newsList = newsList;
-        this.intent = intent;
+        this.intentArticles = intentArticles;
     }
 
     @NonNull
@@ -51,17 +51,26 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         holder.newsItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                intent = new Intent(holder.itemView.getContext(), ArticleNewsActivity.class);
-
-                intent.putExtra("title", fullTitle);
-                intent.putExtra("author", newsList.get(position).getAuthor());
-                intent.putExtra("date", date);
-                intent.putExtra("content", newsList.get(position).getDescription());
-                intent.putExtra("image", newsList.get(position).getImage());
-                intent.putExtra("viewing_article", true);
-
-                holder.itemView.getContext().startActivity(intent);
+                if (intentArticles != null) {
+                    Log.d("NewsAdapter", "IntentArticles: " + intentArticles.toString());
+                    intentArticles.putExtra("title", fullTitle);
+                    intentArticles.putExtra("author", newsList.get(position).getAuthor());
+                    intentArticles.putExtra("date", date);
+                    intentArticles.putExtra("content", newsList.get(position).getDescription());
+                    intentArticles.putExtra("image", newsList.get(position).getImage());
+                    intentArticles.putExtra("viewing_article", true);
+                    v.getContext().startActivity(intentArticles);
+                } else {
+                    defaultIntent = new Intent(holder.itemView.getContext(), ArticleNewsActivity.class);
+                    Log.d("NewsAdapter", "DefaultIntent: " + defaultIntent.toString());
+                    defaultIntent.putExtra("title", fullTitle);
+                    defaultIntent.putExtra("author", newsList.get(position).getAuthor());
+                    defaultIntent.putExtra("date", date);
+                    defaultIntent.putExtra("content", newsList.get(position).getDescription());
+                    defaultIntent.putExtra("image", newsList.get(position).getImage());
+                    defaultIntent.putExtra("viewing_article", true);
+                    v.getContext().startActivity(defaultIntent);
+                }
             }
         });
     }

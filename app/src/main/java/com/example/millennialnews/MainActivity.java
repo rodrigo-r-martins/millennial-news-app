@@ -5,10 +5,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ActionBar;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,13 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import android.widget.Switch;
-import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.kwabenaberko.newsapilib.NewsApiClient;
 import com.kwabenaberko.newsapilib.models.Source;
 import com.kwabenaberko.newsapilib.models.request.EverythingRequest;
@@ -42,16 +33,12 @@ public class MainActivity extends AppCompatActivity {
     SaveState saveState;
     boolean isLoggedIn;
     boolean viewingArticle;
-
-    private Intent intent_Article;
-
-//    private SharedPreferences sp;
-
+    private Intent intentArticle;
     private List<NewsArticle> articleList  = new ArrayList<>();
     private List<NewsArticle> articleListSearch  = new ArrayList<>();
     private NewsAdapter newsAdapter;
-
-    String user_email;
+    String userEmail;
+    Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,34 +58,30 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-//        sp = getSharedPreferences("login", Context.MODE_PRIVATE);
-//        if(isLoggedIn){
-//            SharedPreferences.Editor editor = sp.edit();
-//            editor.putBoolean("logged_in", true);
-//            editor.commit();
-//        }
-
         // === INITIALIZING VARIABLES ===
         btnSearch = findViewById(R.id.btnSearch);
         etSearch = findViewById(R.id.etSearch);
         rvNews = findViewById(R.id.rvNews);
 
-
-        etSearch.requestFocus();
-
-//        intent_Article = new Intent(this, ArticleNewsActivity.class);
-//
-//        intent_Article.putExtra("userEmail", user_email);
-//        Log.d("MainActivity", user_email);
+        // === GETTING EXTRAS IN THE MAIN ACTIVITY ===
+        if (savedInstanceState == null) {
+            extras = getIntent().getExtras();
+            if (extras == null) {
+                userEmail = "";
+            } else {
+                userEmail = extras.getString("userEmail");
+            }
+        }
 
         // === LOADING ARTICLES TO THE MAIN PAGE ===
+        etSearch.requestFocus();
         articleList = getFreshNews();
-        newsAdapter = new NewsAdapter(articleList, intent_Article);
-        rvNews.setAdapter(newsAdapter);
-        rvNews.setLayoutManager(new LinearLayoutManager(this));
-
+        if (intentArticle == null) {
+            newsAdapter = new NewsAdapter(articleList, intentArticle);
+            rvNews.setAdapter(newsAdapter);
+            rvNews.setLayoutManager(new LinearLayoutManager(this));
+        }
         // === LOADING ARTICLES FROM THE SEARCH BAR ===
-
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -209,10 +192,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(ArticleResponse response) {
                         for (int i = 0; i < 20; i++) {
-
                             Source source = response.getArticles().get(i).getSource();
-//                            String id = source.getId();
-//                            Log.d("Source ID", id);
                             String author = response.getArticles().get(i).getAuthor();
                             String title = response.getArticles().get(i).getTitle();
                             String description = response.getArticles().get(i).getDescription();
@@ -221,11 +201,10 @@ public class MainActivity extends AppCompatActivity {
                             NewsArticle article = new NewsArticle(source, author, title, description, date, image);
                             articleListSearch.add(article);
                         }
-                        Log.d("getNewsALS", articleListSearch.toString());
-                        Log.d("getNewsAL", articleList.toString());
+                        Log.d("MainActivity - getNews", "Article List Search: " + articleListSearch.toString());
+                        Log.d("MainActivity - getNews", "Article List: " + articleList.toString());
                         articleList.clear();
                         articleList.addAll(articleListSearch);
-                        Log.d("getNewsAfterAddAll", articleList.toString());
                         newsAdapter.notifyDataSetChanged();
                     }
                     @Override
@@ -239,29 +218,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-
-        user_email = getIntent().getStringExtra("userEmail");
-
         isLoggedIn = getIntent().getBooleanExtra("isLoggedIn", false);
         viewingArticle = getIntent().getBooleanExtra("viewing_article", false);
-
-        intent_Article = new Intent(this, ArticleNewsActivity.class);
-
-        intent_Article.putExtra("userEmail", user_email);
-        Log.d("MainActivity", user_email);
-
-        Log.d("OnResume isLoggedIn", Boolean.toString((isLoggedIn)));
-        Log.d("OnResume ViewArt", Boolean.toString((viewingArticle)));
+        Log.d("MainActivity - onResume", "isLoggedIn: " + isLoggedIn);
+        Log.d("MainActivity - onResume", "viewArticle: " + viewingArticle);
         if (isLoggedIn && !viewingArticle){
             invalidateOptionsMenu();
         }
+        if (!isLoggedIn) {
+            userEmail = "";
+        }
+
+        Log.d("MainActivity - onResume", "userEmail: " + userEmail);
+        intentArticle = new Intent(MainActivity.this, ArticleNewsActivity.class);
+        intentArticle.putExtra("userEmail", userEmail);
+        if (intentArticle != null) {
+            newsAdapter = new NewsAdapter(articleList, intentArticle);
+            rvNews.setAdapter(newsAdapter);
+            rvNews.setLayoutManager(new LinearLayoutManager(this));
+        }
     }
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        Intent intent = new Intent(this, MainActivity.class);
-//        viewingArticle = true;
-//        intent.putExtra("viewingArticle", viewingArticle);
-//        Log.d("viewingArt", Boolean.toString(viewingArticle));
-//    }
 }
