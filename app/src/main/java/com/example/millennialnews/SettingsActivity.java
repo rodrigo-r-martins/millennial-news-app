@@ -22,7 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         setContentView(R.layout.activity_settings);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         switchMode = findViewById(R.id.switchMode);
 
         if(saveState.getState() == true)

@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -40,9 +43,15 @@ public class MainActivity extends AppCompatActivity {
     boolean isLoggedIn;
     boolean viewingArticle;
 
+    private Intent intent_Article;
+
+//    private SharedPreferences sp;
+
     private List<NewsArticle> articleList  = new ArrayList<>();
     private List<NewsArticle> articleListSearch  = new ArrayList<>();
     private NewsAdapter newsAdapter;
+
+    String user_email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +71,13 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+//        sp = getSharedPreferences("login", Context.MODE_PRIVATE);
+//        if(isLoggedIn){
+//            SharedPreferences.Editor editor = sp.edit();
+//            editor.putBoolean("logged_in", true);
+//            editor.commit();
+//        }
+
         // === INITIALIZING VARIABLES ===
         btnSearch = findViewById(R.id.btnSearch);
         etSearch = findViewById(R.id.etSearch);
@@ -69,13 +85,20 @@ public class MainActivity extends AppCompatActivity {
 
 
         etSearch.requestFocus();
+
+//        intent_Article = new Intent(this, ArticleNewsActivity.class);
+//
+//        intent_Article.putExtra("userEmail", user_email);
+//        Log.d("MainActivity", user_email);
+
         // === LOADING ARTICLES TO THE MAIN PAGE ===
         articleList = getFreshNews();
-        newsAdapter = new NewsAdapter(articleList);
+        newsAdapter = new NewsAdapter(articleList, intent_Article);
         rvNews.setAdapter(newsAdapter);
         rvNews.setLayoutManager(new LinearLayoutManager(this));
 
         // === LOADING ARTICLES FROM THE SEARCH BAR ===
+
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,14 +110,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         MenuInflater inflater = getMenuInflater();
         if (!isLoggedIn)
         inflater.inflate(R.menu.menu, menu);
         else
             inflater.inflate(R.menu.menu2, menu);
 
+        if (viewingArticle && isLoggedIn){
+            inflater.inflate(R.menu.menu2, menu);
+        }
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -111,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.menuRegister) {
-            openLogInActivity(item);
+            openRegisterActivity(item);
             return true;
         }
         if (id == R.id.menuLogOut) {
@@ -180,8 +208,11 @@ public class MainActivity extends AppCompatActivity {
                 new NewsApiClient.ArticlesResponseCallback() {
                     @Override
                     public void onSuccess(ArticleResponse response) {
-                        for (int i = 0; i < response.getArticles().size(); i++) {
+                        for (int i = 0; i < 20; i++) {
+
                             Source source = response.getArticles().get(i).getSource();
+//                            String id = source.getId();
+//                            Log.d("Source ID", id);
                             String author = response.getArticles().get(i).getAuthor();
                             String title = response.getArticles().get(i).getTitle();
                             String description = response.getArticles().get(i).getDescription();
@@ -208,10 +239,29 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+
+        user_email = getIntent().getStringExtra("userEmail");
+
         isLoggedIn = getIntent().getBooleanExtra("isLoggedIn", false);
-        if (!viewingArticle)
-        invalidateOptionsMenu();
-    }
+        viewingArticle = getIntent().getBooleanExtra("viewing_article", false);
 
+        intent_Article = new Intent(this, ArticleNewsActivity.class);
 
+        intent_Article.putExtra("userEmail", user_email);
+        Log.d("MainActivity", user_email);
+
+        Log.d("OnResume isLoggedIn", Boolean.toString((isLoggedIn)));
+        Log.d("OnResume ViewArt", Boolean.toString((viewingArticle)));
+        if (isLoggedIn && !viewingArticle){
+            invalidateOptionsMenu();
         }
+    }
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        Intent intent = new Intent(this, MainActivity.class);
+//        viewingArticle = true;
+//        intent.putExtra("viewingArticle", viewingArticle);
+//        Log.d("viewingArt", Boolean.toString(viewingArticle));
+//    }
+}

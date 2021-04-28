@@ -4,9 +4,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -17,11 +27,13 @@ public class ArticleNewsActivity extends AppCompatActivity {
     TextView tvNewsDateFull;
     TextView tvNewsContentFull;
     ImageView ivNewsImageFull;
+    Button btn_fav;
+    private DatabaseReference db;
 
     private Switch switchMode;
     private boolean viewingArticle;
     SaveState saveState;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,11 +55,14 @@ public class ArticleNewsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_article_news);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
         tvNewsTitleFull = findViewById(R.id.tvNewsTitleFull);
         tvNewsAuthorFull = findViewById(R.id.tvNewsAuthorFull);
         tvNewsDateFull = findViewById(R.id.tvNewsDateFull);
         ivNewsImageFull = findViewById(R.id.ivNewsImageFull);
         tvNewsContentFull = findViewById(R.id.tvNewsContentFull);
+        btn_fav = findViewById(R.id.btn_fav);
 
         Intent intent = ((Activity) this).getIntent();
         String title = intent.getStringExtra("title");
@@ -62,5 +77,94 @@ public class ArticleNewsActivity extends AppCompatActivity {
         tvNewsContentFull.setText(content);
         LoadImageNews imageFull = new LoadImageNews(ivNewsImageFull);
         imageFull.execute(image);
+
+        String user_email = getIntent().getStringExtra("userEmail");
+        Log.d("ArticleNewsActivity", user_email);
+
+        db = FirebaseDatabase.getInstance().getReference("users");
+        Log.i("DATABASE", db.toString());
+
+//        btn_fav.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                    Intent intent = new Intent(v.getContext(), LoginActivity.class);
+//
+//                    db.addValueEventListener(new ValueEventListener() {
+//
+//                        @Override
+//                        public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                            int counter = 0;
+//                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+//
+//                                if (user != null) {
+//                                    if (user.getEmail().equals(userEmail)) {
+//                                        Toast.makeText(ArticleNewsActivity.this, "User already exists!", Toast.LENGTH_SHORT).show();
+//                                        doesUserExist = true;
+//                                    }
+//                                }
+//                                counter++;
+//                            }
+//                            if (!doesUserExist) {
+//                                if (userFirstName.isEmpty()) {
+//                                    firstName.setError("Please enter the First Name");
+//                                    Log.w("DATABASE", "First name is empty");
+//                                } else if (userLastName.isEmpty()) {
+//                                    lastName.setError("Please enter the Last Name");
+//                                } else if (userEmail.isEmpty()) {
+//                                    email.setError("Please enter the Email");
+//                                } else if (userPassword.isEmpty()) {
+//                                    password.setError("Please enter a Password");
+//                                } else {
+//                                    // If none of the values are empty,
+//                                    // add user to the Database and show a Toast with confirmation
+//                                    User newUser = new User(
+//                                            userFirstName,
+//                                            userLastName,
+//                                            userPassword,
+//                                            userEmail
+//                                    );
+//                                    db.child(String.valueOf(counter)).setValue(newUser);
+//                                    firstName.setText("");
+//                                    lastName.setText("");
+//                                    email.setText("");
+//                                    password.setText("");
+//                                    Toast.makeText(RegisterActivity.this, "Successfully registered!", Toast.LENGTH_LONG).show();
+//                                    startActivity(intent);
+//                                }
+//                            }
+//                            Toast.makeText(RegisterActivity.this, "Successfully registered! outter 1", Toast.LENGTH_LONG).show();
+//                        }
+//
+//                            @Override
+//                            public void onCancelled(DatabaseError error) {
+//                                // Failed to read value
+//                                Log.w("DATABASE", "Failed to read value.", error.toException());
+//                            }
+//                        });
+//            }
+//        });
     }
+
+
+
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        Intent intent = new Intent(this, MainActivity.class);
+//        viewingArticle = true;
+//        intent.putExtra("viewingArticle", viewingArticle);
+//        Log.d("viewingArt", Boolean.toString(viewingArticle));
+//    }
 }
+
+
+
+
+
+
+
+
+
+
