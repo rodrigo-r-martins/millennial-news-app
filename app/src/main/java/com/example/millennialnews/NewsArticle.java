@@ -26,6 +26,20 @@ public class NewsArticle {
         this.image = image;
     }
 
+    public NewsArticle (
+            String title,
+            String author,
+            String date,
+            String description,
+            String image
+    ) {
+        this.author = author;
+        this.title = title;
+        this.description = description;
+        this.date = date;
+        this.image = image;
+    }
+
     public Source getSource() {
         return source;
     }

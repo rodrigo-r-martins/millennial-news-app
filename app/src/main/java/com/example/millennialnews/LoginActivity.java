@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d("LoginActivity - DB", ds.getValue().toString());
                             if (user != null) {
                                 if (user.getEmail().equals(userEmail) && user.getPassword().equals(userPassword)) {
-                                    Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(v.getContext(), "Login Successful", Toast.LENGTH_SHORT).show();
                                     currentUser = user;
                                     isLoggedIn = true;
                                     Log.d("LoginActivity - DB", currentUser.toString());
