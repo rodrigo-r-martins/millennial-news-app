@@ -245,6 +245,7 @@ public class MainActivity extends AppCompatActivity {
         intentArticle = new Intent(MainActivity.this, ArticleNewsActivity.class);
         Log.d("SEND TO ARTICLE", userID);
         intentArticle.putExtra("userID", userID);
+        intentArticle.putExtra("isLoggedIn", isLoggedIn);
         if (intentArticle != null) {
             newsAdapter = new NewsAdapter(articleList, intentArticle);
             rvNews.setAdapter(newsAdapter);

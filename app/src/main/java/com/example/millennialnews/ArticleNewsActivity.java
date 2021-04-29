@@ -29,6 +29,7 @@ public class ArticleNewsActivity extends AppCompatActivity {
     private DatabaseReference db;
     private Switch switchMode;
     private boolean viewingArticle;
+    private boolean loginStatus;
     SaveState saveState;
     String userID;
 
@@ -53,6 +54,7 @@ public class ArticleNewsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         userID = getIntent().getStringExtra("userID");
+        loginStatus = getIntent().getBooleanExtra("isLoggedIn", false);
         viewingArticle = true;
         tvNewsTitleFull = findViewById(R.id.tvNewsTitleFull);
         tvNewsAuthorFull = findViewById(R.id.tvNewsAuthorFull);
@@ -60,6 +62,11 @@ public class ArticleNewsActivity extends AppCompatActivity {
         ivNewsImageFull = findViewById(R.id.ivNewsImageFull);
         tvNewsContentFull = findViewById(R.id.tvNewsContentFull);
         btnFav = findViewById(R.id.btn_fav);
+
+        if (loginStatus == true)
+            btnFav.setVisibility(View.VISIBLE);
+        else
+            btnFav.setVisibility(View.GONE);
 
         Intent intent = this.getIntent();
         String title = intent.getStringExtra("title");
