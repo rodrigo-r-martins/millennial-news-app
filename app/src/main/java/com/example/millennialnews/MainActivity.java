@@ -1,5 +1,6 @@
 package com.example.millennialnews;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +19,12 @@ import android.widget.EditText;
 
 import android.widget.Switch;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.kwabenaberko.newsapilib.NewsApiClient;
 import com.kwabenaberko.newsapilib.models.Source;
 import com.kwabenaberko.newsapilib.models.request.EverythingRequest;
@@ -38,7 +46,10 @@ public class MainActivity extends AppCompatActivity {
     private List<NewsArticle> articleListSearch  = new ArrayList<>();
     private NewsAdapter newsAdapter;
     String userID;
+    String userFirstName;
     Bundle extras;
+    DatabaseReference db;
+    private ArrayList<NewsArticle> userArticleList  = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 userID = "";
             } else {
                 userID = extras.getString("userID");
+                userFirstName = extras.getString("userFirstName");
             }
         }
 
@@ -147,6 +159,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void openProfileActivity(MenuItem item) {
         Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra("userFirstName", userFirstName);
+        intent.putParcelableArrayListExtra("userArticleList", userArticleList);
         startActivity(intent);
     }
 
@@ -229,21 +243,65 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+
+        // Checking if user is logged in and getting userID and userFirstName to pass as intent extra
         isLoggedIn = getIntent().getBooleanExtra("isLoggedIn", false);
         viewingArticle = getIntent().getBooleanExtra("viewing_article", false);
         userID = getIntent().getStringExtra("userID");
+        userFirstName = getIntent().getStringExtra("userFirstName");
         Log.d("MainActivity - onResume", "isLoggedIn: " + isLoggedIn);
         Log.d("MainActivity - onResume", "viewArticle: " + viewingArticle);
+
+        // Changing menu when user is logged in
         if (isLoggedIn && !viewingArticle){
             invalidateOptionsMenu();
         }
+
+        // Resetting value of userID when user log out
         if (!isLoggedIn) {
             userID = "";
         }
 
+        // Loading articles that user saved as favorites and passing as intent extra to profile activity
+        if (isLoggedIn) {
+            db = FirebaseDatabase.getInstance().getReference("users");
+            Log.d("ProfileActivity - DB", db.toString());
+
+            db.child(userID + "/articles").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        Log.d("ProfileActivity - DB", ds.getValue().toString());
+
+                        NewsArticle article = new NewsArticle();
+                        if (ds.child("title").exists()) {
+                            article.setTitle(ds.child("title").getValue().toString());
+                        }
+                        if (ds.child("author").exists()) {
+                            article.setAuthor(ds.child("author").getValue().toString());
+                        }
+                        if (ds.child("date").exists()) {
+                            article.setDate(ds.child("date").getValue().toString());
+                        }
+                        if (ds.child("description").exists()) {
+                            article.setDescription(ds.child("description").getValue().toString());
+                        }
+                        if (ds.child("image").exists()) {
+                            article.setImage(ds.child("image").getValue().toString());
+                        }
+                        userArticleList.add(article);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+
         Log.d("MainActivity - onResume", "userID: " + userID);
         intentArticle = new Intent(MainActivity.this, ArticleNewsActivity.class);
-        Log.d("SEND TO ARTICLE", userID);
         intentArticle.putExtra("userID", userID);
         intentArticle.putExtra("isLoggedIn", isLoggedIn);
         if (intentArticle != null) {

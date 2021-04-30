@@ -84,6 +84,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Log.d("LOGINACTIVITY COUNTER", Integer.toString(counter));
                                     userID = Integer.toString(counter);
                                     intent.putExtra("userID", userID);
+                                    intent.putExtra("userFirstName", user.getFirstName());
                                     break;
                                 }
                             }

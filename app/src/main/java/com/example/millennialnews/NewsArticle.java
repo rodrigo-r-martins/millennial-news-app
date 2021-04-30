@@ -1,14 +1,19 @@
 package com.example.millennialnews;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.kwabenaberko.newsapilib.models.Source;
 
-public class NewsArticle {
+public class NewsArticle implements Parcelable {
     private Source source;
     private String author;
     private String title;
     private String description;
     private String date;
     private String image;
+
+    public NewsArticle() {}
 
     public NewsArticle(
             Source source,
@@ -40,8 +45,19 @@ public class NewsArticle {
         this.image = image;
     }
 
+    public NewsArticle (Parcel in) {
+        title = in.readString();
+        author = in.readString();
+        date = in.readString();
+        description = in.readString();
+        image = in.readString();
+    }
+
     public Source getSource() {
-        return source;
+        if (source != null) {
+            return source;
+        }
+        return null;
     }
 
     public void setSource(Source source) {
@@ -91,7 +107,7 @@ public class NewsArticle {
     @Override
     public String toString() {
         return "News {" +
-                "source='" + source.getName() + '\'' +
+                "source='" + source + '\'' +
                 ", author='" + author + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
@@ -99,4 +115,27 @@ public class NewsArticle {
                 ", image='" + image + '\'' +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(author);
+        dest.writeString(date);
+        dest.writeString(description);
+        dest.writeString(image);
+    }
+
+    public static final Parcelable.Creator<NewsArticle> CREATOR = new Parcelable.Creator<NewsArticle>()
+    {
+        public NewsArticle createFromParcel(Parcel in) {
+            return new NewsArticle(in);
+        }
+        public NewsArticle[] newArray(int size) {
+            return new NewsArticle[size];
+        }
+    };
 }
