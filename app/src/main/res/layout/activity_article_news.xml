@@ -12,6 +12,7 @@
         android:layout_height="150dp"
         android:background="@drawable/news_image"
         android:contentDescription="@string/ivNewsImageDescription"
+        android:outlineAmbientShadowColor="#3F51B5"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
