@@ -93,10 +93,11 @@ public class ArticleNewsActivity extends AppCompatActivity {
                 db.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        db.child(String.valueOf(userID)+"/articles").push().setValue(new NewsArticle(
-                                title, author, date, description, image
-                        ));
-                        Toast.makeText(v.getContext(), "Added to Favorites!", Toast.LENGTH_SHORT).show();
+                        if (userID != null) {
+                            db.child(userID + "/articles").push().setValue(new NewsArticle(
+                                    title, author, date, description, image
+                            ));
+                        }
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
@@ -104,5 +105,6 @@ public class ArticleNewsActivity extends AppCompatActivity {
                 });
             }
         });
+        Toast.makeText(ArticleNewsActivity.this, "Added to Favorites!", Toast.LENGTH_SHORT).show();
     }
 }
