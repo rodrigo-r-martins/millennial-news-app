@@ -90,6 +90,7 @@ public class ArticleNewsActivity extends AppCompatActivity {
         btnFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(ArticleNewsActivity.this, "Added to Favorites!", Toast.LENGTH_SHORT).show();
                 db.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -105,6 +106,6 @@ public class ArticleNewsActivity extends AppCompatActivity {
                 });
             }
         });
-        Toast.makeText(ArticleNewsActivity.this, "Added to Favorites!", Toast.LENGTH_SHORT).show();
+
     }
 }
