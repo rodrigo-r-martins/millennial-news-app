@@ -47,4 +47,4 @@ Existing solutions:
 
 <a href="https://docs.google.com/presentation/d/1rY0w8juzAyyAkydX0p4rKok1ECNhmJCzkyQ8V0Hudkc/edit#slide=id.p">Final presentation</a>
 
-
+<a href="https://www.youtube.com/watch?v=VK8rzv0Ku3g">YouTube Video URL</a>
