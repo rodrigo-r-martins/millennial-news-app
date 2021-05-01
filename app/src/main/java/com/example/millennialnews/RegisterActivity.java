@@ -67,13 +67,14 @@ public class RegisterActivity extends AppCompatActivity {
                         String userLastName = lastName.getText().toString().trim();
                         String userEmail = email.getText().toString().trim();
                         String userPassword = password.getText().toString().trim();
-                        User user;
+                        String user;
                         boolean doesUserExist = false;
                         int counter = 0;
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                            user = ds.getValue(User.class);
+                            Log.d("DS", ds.toString());
+                            user = ds.child("email").getValue().toString();
                             if (user != null) {
-                                if (user.getEmail().equals(userEmail)) {
+                                if (user.equals(userEmail)) {
                                     Toast.makeText(RegisterActivity.this, "User already exists!", Toast.LENGTH_SHORT).show();
                                     doesUserExist = true;
                                 }

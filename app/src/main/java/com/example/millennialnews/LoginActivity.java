@@ -67,26 +67,25 @@ public class LoginActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         String userEmail = etUserEmail.getText().toString();
                         String userPassword = etUserPassword.getText().toString();
-                        User user;
+                        String password;
+                        String email;
                         Intent intent = new Intent(v.getContext(), MainActivity.class);
                         boolean isLoggedIn = false;
                         int counter = 0;
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                            user = ds.getValue(User.class);
+                            password = ds.child("password").getValue().toString();
+                            email = ds.child("email").getValue().toString();
                             Log.d("LoginActivity - DB", ds.getValue().toString());
-                            if (user != null) {
-                                if (user.getEmail().equals(userEmail) && user.getPassword().equals(userPassword)) {
-                                    Toast.makeText(v.getContext(), "Login Successful", Toast.LENGTH_SHORT).show();
-                                    currentUser = user;
-                                    isLoggedIn = true;
-                                    Log.d("LoginActivity - DB", currentUser.toString());
-                                    intent.putExtra("isLoggedIn", isLoggedIn);
-                                    Log.d("LOGINACTIVITY COUNTER", Integer.toString(counter));
-                                    userID = Integer.toString(counter);
-                                    intent.putExtra("userID", userID);
-                                    intent.putExtra("userFirstName", user.getFirstName());
-                                    break;
-                                }
+                            if (email.equals(userEmail) && password.equals(userPassword)) {
+                                Toast.makeText(v.getContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+                                isLoggedIn = true;
+                                Log.d("LoginActivity - DB", ds.getValue().toString());
+                                intent.putExtra("isLoggedIn", isLoggedIn);
+                                Log.d("LOGINACTIVITY COUNTER", Integer.toString(counter));
+                                userID = Integer.toString(counter);
+                                intent.putExtra("userID", userID);
+                                intent.putExtra("userFirstName", ds.child("firstName").getValue().toString());
+                                break;
                             }
                             counter++;
                         }
