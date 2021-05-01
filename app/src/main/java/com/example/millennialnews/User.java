@@ -1,10 +1,13 @@
 package com.example.millennialnews;
 
+import java.util.List;
+
 public class User {
     private String firstName;
     private String lastName;
     private String email;
     private String password;
+    private String article;
 
     public User() {}
 
@@ -13,6 +16,7 @@ public class User {
         this.lastName = lastName;
         this.password = password;
         this.email = email;
+        this.article = "";
     }
 
     @Override
@@ -55,5 +59,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getArticle() {
+        return article;
+    }
+
+    public void setArticle(String article) {
+        this.article = article;
     }
 }

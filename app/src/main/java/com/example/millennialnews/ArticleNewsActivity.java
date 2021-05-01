@@ -98,6 +98,7 @@ public class ArticleNewsActivity extends AppCompatActivity {
                             db.child(userID + "/articles").push().setValue(new NewsArticle(
                                     title, author, date, description, image
                             ));
+                            Toast.makeText(v.getContext(), "Added to Favorites!", Toast.LENGTH_SHORT).show();
                         }
                     }
                     @Override
@@ -106,6 +107,5 @@ public class ArticleNewsActivity extends AppCompatActivity {
                 });
             }
         });
-
     }
 }
