@@ -7,7 +7,7 @@ public class User {
     private String lastName;
     private String email;
     private String password;
-    private String article;
+    private String articles;
 
     public User() {}
 
@@ -16,7 +16,7 @@ public class User {
         this.lastName = lastName;
         this.password = password;
         this.email = email;
-        this.article = "";
+        this.articles = "";
     }
 
     @Override
@@ -61,11 +61,11 @@ public class User {
         this.password = password;
     }
 
-    public String getArticle() {
-        return article;
+    public String getArticles() {
+        return articles;
     }
 
-    public void setArticle(String article) {
-        this.article = article;
+    public void setArticles(String articles) {
+        this.articles = articles;
     }
 }
