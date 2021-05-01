@@ -1,0 +1,18 @@
+Slide 3
+
+In the present day there are a number of news media apps installed in every individuals’ mobile device which render news content from that respective news corporation. When an individual (User) needs to view news available in different news agencies or in a different part of the world, that individual needs to move between multiple apps in his device. This creates an extra burden on the users part as the user needs to move from one app to another to fulfill the user's news requirements.
+Our app is developed as a solution to avoid taking this extra step, so that when the user needs to view news from multiple sources and locations the user can simply select the news agency and the country to view the news using the app.
+
+Slide 5
+
+Celeste is an inspiring and upcoming independent young journalist who’s aspired to become a professional news journalist. She constantly needs to be updated with news around the world and also to get exposed to different interpretations on the same news by different news media corporations. Millennial News app helps her to maintain both of these requirements by concentrating news from many news outlet sources into one single application. This reduces her time spent to browse between different applications to fulfill her requirement.  
+
+
+Slide 10
+Implemented
+New users can create accounts by registering themselves with the app. 
+Users (Signed in users and guests) can search a particular news topic by entering a search keyword. 
+Users (Signed in users and guests) are able to view and read news articles.
+Logged in users can save favorite news articles in their profile.  
+To be implemented
+Users (Signed in users and guests) can share news articles.
